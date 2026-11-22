@@ -10,6 +10,8 @@ struct ContentView: View {
             ReviewView().tabItem { Label("Повторение", systemImage: "rectangle.stack.fill") }.tag(AppTab.review)
             ProgressDashboardView().tabItem { Label("Прогресс", systemImage: "chart.bar.fill") }.tag(AppTab.progress)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
         .tint(Color(red: 0.43, green: 0.44, blue: 1.0))
     }
 }
@@ -319,63 +321,111 @@ private struct GeneratedLessonView: View {
     private var current: GeneratedExercise? { index < questions.count ? questions[index] : nil }
 
     var body: some View {
-        VStack(spacing: 18) {
-            HStack {
-                Button { dismiss() } label: { Image(systemName: "xmark").foregroundStyle(.secondary) }
+        VStack(spacing: 0) {
+            HStack(spacing: 14) {
+                Button { dismiss() } label: {
+                    Image(systemName: "xmark").font(.headline).foregroundStyle(.secondary)
+                        .frame(width: 36, height: 36)
+                        .contentShape(Rectangle())
+                }
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
                         Capsule().fill(Color.gray.opacity(0.2))
-                        Capsule().fill(Color.indigo).frame(width: geo.size.width * CGFloat(index) / CGFloat(max(questions.count, 1)))
+                        Capsule().fill(Color.indigo)
+                            .frame(width: geo.size.width * CGFloat(index) / CGFloat(max(questions.count, 1)))
                     }
-                }.frame(height: 9)
-                Text("\(index + 1)/\(questions.count)").font(.caption.bold()).foregroundStyle(.secondary)
-            }.padding(.top, 8)
+                }
+                .frame(height: 9)
+                Text("\(min(index + 1, max(questions.count, 1)))/\(questions.count)")
+                    .font(.caption.bold()).foregroundStyle(.secondary)
+                    .fixedSize()
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 10)
+            .padding(.bottom, 12)
 
-            if let question = current {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text(exerciseLabel(question.type).uppercased()).font(.caption.bold()).tracking(1.1).foregroundStyle(.indigo)
-                    Text(question.prompt).font(.title2.bold())
-                    if !question.relatedTerm.isEmpty {
-                        Text("Тема: \(question.relatedTerm)").font(.caption).foregroundStyle(.secondary)
-                    }
-                }.frame(maxWidth: .infinity, alignment: .leading).padding(.vertical, 18)
-
-                VStack(spacing: 10) {
-                    ForEach(options, id: \.self) { option in
-                        Button { choose(option, question: question) } label: {
-                            HStack {
-                                Text(option).font(.headline).multilineTextAlignment(.leading)
-                                Spacer(minLength: 5)
-                                if answered && option == question.correctAnswer { Image(systemName: "checkmark.circle.fill").foregroundStyle(.green) }
-                                else if answered && option == selectedAnswer { Image(systemName: "xmark.circle.fill").foregroundStyle(.red) }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    if let question = current {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text(exerciseLabel(question.type).uppercased())
+                                .font(.caption.bold()).tracking(1.1).foregroundStyle(.indigo)
+                            Text(question.prompt)
+                                .font(.title2.bold()).fixedSize(horizontal: false, vertical: true)
+                            if !question.relatedTerm.isEmpty {
+                                Text("Тема: \(question.relatedTerm)")
+                                    .font(.caption).foregroundStyle(.secondary)
                             }
-                            .padding(15).frame(maxWidth: .infinity, alignment: .leading)
-                            .background(optionColor(option, question: question))
-                            .overlay(RoundedRectangle(cornerRadius: 15).stroke(optionBorder(option, question: question), lineWidth: 1.5))
-                            .clipShape(RoundedRectangle(cornerRadius: 15))
-                        }.buttonStyle(.plain).disabled(answered)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, 12)
+
+                        VStack(spacing: 10) {
+                            ForEach(options, id: \.self) { option in
+                                Button { choose(option, question: question) } label: {
+                                    HStack(alignment: .center, spacing: 10) {
+                                        Text(option).font(.headline).multilineTextAlignment(.leading)
+                                        Spacer(minLength: 5)
+                                        if answered && option == question.correctAnswer {
+                                            Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+                                        } else if answered && option == selectedAnswer {
+                                            Image(systemName: "xmark.circle.fill").foregroundStyle(.red)
+                                        }
+                                    }
+                                    .padding(15)
+                                    .frame(maxWidth: .infinity, minHeight: 58, alignment: .leading)
+                                    .background(optionColor(option, question: question))
+                                    .overlay(RoundedRectangle(cornerRadius: 15)
+                                        .stroke(optionBorder(option, question: question), lineWidth: 1.5))
+                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                                }
+                                .buttonStyle(.plain)
+                                .disabled(answered)
+                            }
+                        }
+
+                        if answered {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(isCorrect ? "Правильно!" : "Правильный ответ")
+                                    .font(.headline).foregroundStyle(isCorrect ? .green : .orange)
+                                Text(question.explanation)
+                                    .font(.subheadline).foregroundStyle(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(14)
+                            .background(Color(uiColor: .secondarySystemBackground))
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                        }
+                    } else {
+                        ProgressView().tint(.indigo).frame(maxWidth: .infinity).padding(.top, 60)
                     }
                 }
-                Spacer(minLength: 0)
-                if answered {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(isCorrect ? "Правильно!" : "Правильный ответ").font(.headline).foregroundStyle(isCorrect ? .green : .orange)
-                        Text(question.explanation).font(.subheadline).foregroundStyle(.secondary)
-                    }.frame(maxWidth: .infinity, alignment: .leading)
-                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 18)
+            }
+
+            if current != nil {
                 Button { next() } label: {
                     Text(answered ? (index == questions.count - 1 ? "Завершить" : "Продолжить") : "Выбери ответ")
-                        .font(.headline).frame(maxWidth: .infinity).padding(17)
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding(17)
                         .background(answered ? Color.indigo : Color.gray.opacity(0.25))
-                        .foregroundStyle(.white).clipShape(RoundedRectangle(cornerRadius: 16))
-                }.disabled(!answered)
-            } else {
-                ProgressView().tint(.indigo)
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                }
+                .disabled(!answered)
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
+                .padding(.bottom, 10)
+                .background(Color(uiColor: .systemBackground))
             }
         }
-        .padding(20)
-        .background(Color(uiColor: .systemBackground))
-        .navigationBarBackButtonHidden(true)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
+        .toolbar(.hidden, for: .tabBar)
+        .toolbar(.hidden, for: .navigationBar)
         .onAppear { prepareQuestions() }
         .navigationDestination(isPresented: $showResult) {
             LessonResultView(title: pack.unit.title, count: questions.count, correct: correctIDs.count)
@@ -526,53 +576,131 @@ private struct LessonView: View {
     }
 
     var body: some View {
-        VStack(spacing: 18) {
-            HStack {
-                Button { dismiss() } label: { Image(systemName: "xmark").font(.headline).foregroundStyle(.secondary) }
-                GeometryReader { geo in ZStack(alignment: .leading) { Capsule().fill(Color.gray.opacity(0.2)); Capsule().fill(Color.indigo).frame(width: geo.size.width * CGFloat(index) / CGFloat(max(deck.count, 1))) } }.frame(height: 9)
-                Label("\(hearts)", systemImage: "heart.fill").foregroundStyle(.pink).font(.subheadline.bold())
-            }.padding(.top, 8)
-            if let card = current {
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("\(index + 1) ИЗ \(deck.count)").font(.caption.bold()).tracking(1.2).foregroundStyle(.secondary)
-                    Text(questionTitle).font(.title2.bold())
-                    HStack(spacing: 12) {
-                        if index % 3 == 2 {
-                            Button { SpeechService.shared.speak(card.term) } label: {
-                                Label("Прослушать слово", systemImage: "speaker.wave.2.fill").font(.title3.bold()).padding(15).background(Color.indigo.opacity(0.14)).clipShape(RoundedRectangle(cornerRadius: 14))
-                            }.buttonStyle(.plain)
-                        } else {
-                            Text(directionToEnglish ? card.translation : card.term).font(.system(size: 25, weight: .bold, design: .rounded))
-                            if !directionToEnglish { Button { SpeechService.shared.speak(card.term) } label: { Image(systemName: "speaker.wave.2.fill").font(.title2).foregroundStyle(.indigo) }.buttonStyle(.plain) }
-                        }
-                    }.padding(.vertical, 24)
-                }.frame(maxWidth: .infinity, alignment: .leading)
-                VStack(spacing: 10) {
-                    ForEach(options) { option in
-                        Button { choose(option) } label: {
-                            HStack { Text((directionToEnglish || index % 3 == 2) ? option.term : option.translation).font(.headline); Spacer(); if answered && option.id == card.id { Image(systemName: "checkmark.circle.fill").foregroundStyle(.green) }; if answered && selectedID == option.id && option.id != card.id { Image(systemName: "xmark.circle.fill").foregroundStyle(.red) } }
-                                .padding(16).frame(maxWidth: .infinity, alignment: .leading)
-                                .background(optionBackground(option, correct: card))
-                                .overlay(RoundedRectangle(cornerRadius: 15).stroke(optionBorder(option, correct: card), lineWidth: 1.5))
-                                .clipShape(RoundedRectangle(cornerRadius: 15))
-                        }.buttonStyle(.plain).disabled(answered)
+        VStack(spacing: 0) {
+            HStack(spacing: 14) {
+                Button { dismiss() } label: {
+                    Image(systemName: "xmark").font(.headline).foregroundStyle(.secondary)
+                        .frame(width: 36, height: 36)
+                        .contentShape(Rectangle())
+                }
+                GeometryReader { geo in
+                    ZStack(alignment: .leading) {
+                        Capsule().fill(Color.gray.opacity(0.2))
+                        Capsule().fill(Color.indigo)
+                            .frame(width: geo.size.width * CGFloat(index) / CGFloat(max(deck.count, 1)))
                     }
                 }
-                Spacer(minLength: 0)
-                if answered {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(isCorrect ? "Отлично!" : "Правильный ответ").font(.headline).foregroundStyle(isCorrect ? .green : .orange)
-                        Text(card.term + " — " + card.translation).font(.subheadline.bold())
-                        Text(card.example).font(.subheadline)
-                    }.frame(maxWidth: .infinity, alignment: .leading)
-                }
-                Button { next() } label: { Text(answered ? (index == deck.count - 1 || hearts == 0 ? "Завершить" : "Продолжить") : "Выбери ответ").font(.headline).frame(maxWidth: .infinity).padding(17).background(answered ? Color.indigo : Color.gray.opacity(0.25)).foregroundStyle(.white).clipShape(RoundedRectangle(cornerRadius: 16)) }.disabled(!answered)
-            } else {
-                ProgressView().tint(.indigo)
+                .frame(height: 9)
+                Label("\(hearts)", systemImage: "heart.fill")
+                    .foregroundStyle(.pink).font(.subheadline.bold()).fixedSize()
             }
-        }.padding(20).navigationBarBackButtonHidden(true).background(Color(uiColor: .systemBackground))
-            .onAppear { prepareDeck() }
-            .navigationDestination(isPresented: $showResult) { LessonResultView(title: title, count: deck.count, correct: correctIDs.count) }
+            .padding(.horizontal, 20)
+            .padding(.top, 10)
+            .padding(.bottom, 12)
+
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    if let card = current {
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("\(index + 1) ИЗ \(deck.count)")
+                                .font(.caption.bold()).tracking(1.2).foregroundStyle(.secondary)
+                            Text(questionTitle).font(.title2.bold())
+                                .fixedSize(horizontal: false, vertical: true)
+                            HStack(spacing: 12) {
+                                if index % 3 == 2 {
+                                    Button { SpeechService.shared.speak(card.term) } label: {
+                                        Label("Прослушать слово", systemImage: "speaker.wave.2.fill")
+                                            .font(.title3.bold()).padding(15)
+                                            .background(Color.indigo.opacity(0.14))
+                                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                                    }
+                                    .buttonStyle(.plain)
+                                } else {
+                                    Text(directionToEnglish ? card.translation : card.term)
+                                        .font(.system(size: 25, weight: .bold, design: .rounded))
+                                        .fixedSize(horizontal: false, vertical: true)
+                                    if !directionToEnglish {
+                                        Button { SpeechService.shared.speak(card.term) } label: {
+                                            Image(systemName: "speaker.wave.2.fill").font(.title2).foregroundStyle(.indigo)
+                                        }.buttonStyle(.plain)
+                                    }
+                                }
+                            }
+                            .padding(.vertical, 14)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                        VStack(spacing: 10) {
+                            ForEach(options) { option in
+                                Button { choose(option) } label: {
+                                    HStack(spacing: 10) {
+                                        Text((directionToEnglish || index % 3 == 2) ? option.term : option.translation)
+                                            .font(.headline).multilineTextAlignment(.leading)
+                                        Spacer(minLength: 5)
+                                        if answered && option.id == card.id {
+                                            Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+                                        } else if answered && selectedID == option.id && option.id != card.id {
+                                            Image(systemName: "xmark.circle.fill").foregroundStyle(.red)
+                                        }
+                                    }
+                                    .padding(15)
+                                    .frame(maxWidth: .infinity, minHeight: 58, alignment: .leading)
+                                    .background(optionBackground(option, correct: card))
+                                    .overlay(RoundedRectangle(cornerRadius: 15)
+                                        .stroke(optionBorder(option, correct: card), lineWidth: 1.5))
+                                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                                }
+                                .buttonStyle(.plain)
+                                .disabled(answered)
+                            }
+                        }
+
+                        if answered {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(isCorrect ? "Отлично!" : "Правильный ответ")
+                                    .font(.headline).foregroundStyle(isCorrect ? .green : .orange)
+                                Text(card.term + " — " + card.translation).font(.subheadline.bold())
+                                Text(card.example).font(.subheadline)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(14)
+                            .background(Color(uiColor: .secondarySystemBackground))
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                        }
+                    } else {
+                        ProgressView().tint(.indigo).frame(maxWidth: .infinity).padding(.top, 60)
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.bottom, 18)
+            }
+
+            if current != nil {
+                Button { next() } label: {
+                    Text(answered ? (index == deck.count - 1 || hearts == 0 ? "Завершить" : "Продолжить") : "Выбери ответ")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding(17)
+                        .background(answered ? Color.indigo : Color.gray.opacity(0.25))
+                        .foregroundStyle(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                }
+                .disabled(!answered)
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
+                .padding(.bottom, 10)
+                .background(Color(uiColor: .systemBackground))
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
+        .toolbar(.hidden, for: .tabBar)
+        .toolbar(.hidden, for: .navigationBar)
+        .onAppear { prepareDeck() }
+        .navigationDestination(isPresented: $showResult) {
+            LessonResultView(title: title, count: deck.count, correct: correctIDs.count)
+        }
     }
 
     private func prepareDeck() {
@@ -628,7 +756,13 @@ private struct LessonResultView: View {
             Text("Слова добавлены в систему интервального повторения. Возвращайся к ним, чтобы закрепить результат.").multilineTextAlignment(.center).foregroundStyle(.secondary).padding(.horizontal)
             Spacer()
             Button { dismiss() } label: { Text("Продолжить").font(.headline).frame(maxWidth: .infinity).padding(17).background(Color.indigo).foregroundStyle(.white).clipShape(RoundedRectangle(cornerRadius: 16)) }
-        }.padding(24).background(Color(uiColor: .systemBackground)).navigationBarBackButtonHidden(true)
+        }
+        .padding(24)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(uiColor: .systemBackground).ignoresSafeArea())
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .tabBar)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 private struct ResultMetric: View {

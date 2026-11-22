@@ -7,6 +7,8 @@ struct CabinCrewEnglishApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.ignoresSafeArea())
                 .environmentObject(progress)
                 .preferredColorScheme(.dark)
         }
