@@ -1,0 +1,58 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+/* Begin PBXBuildFile section */
+		A10000000000000000000001 /* CabinCrewEnglishApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000001 /* CabinCrewEnglishApp.swift */; };
+		A10000000000000000000002 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000002 /* Models.swift */; };
+		A10000000000000000000003 /* VocabularyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000003 /* VocabularyData.swift */; };
+		A10000000000000000000004 /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000004 /* ProgressStore.swift */; };
+		A10000000000000000000005 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000005 /* SpeechService.swift */; };
+		A10000000000000000000006 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000006 /* ContentView.swift */; };
+		A10000000000000000000007 /* AIContentGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10000000000000000000008 /* AIContentGenerator.swift */; };
+/* End PBXBuildFile section */
+/* Begin PBXFileReference section */
+		B10000000000000000000001 /* CabinCrewEnglishApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CabinCrewEnglishApp.swift; sourceTree = "<group>"; };
+		B10000000000000000000002 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		B10000000000000000000003 /* VocabularyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VocabularyData.swift; sourceTree = "<group>"; };
+		B10000000000000000000004 /* ProgressStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
+		B10000000000000000000005 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
+		B10000000000000000000006 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B10000000000000000000008 /* AIContentGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIContentGenerator.swift; sourceTree = "<group>"; };
+		B10000000000000000000007 /* CabinCrewEnglish.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CabinCrewEnglish.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+/* Begin PBXFrameworksBuildPhase section */
+		C10000000000000000000001 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXFrameworksBuildPhase section */
+/* Begin PBXGroup section */
+		D10000000000000000000001 = {isa = PBXGroup; children = (D10000000000000000000002 /* CabinCrewEnglish */, D10000000000000000000003 /* Products */); sourceTree = "<group>"; };
+		D10000000000000000000002 /* CabinCrewEnglish */ = {isa = PBXGroup; path = CabinCrewEnglish; sourceTree = "<group>"; children = (B10000000000000000000001, B10000000000000000000002, B10000000000000000000003, B10000000000000000000004, B10000000000000000000005, B10000000000000000000006, B10000000000000000000008); };
+		D10000000000000000000003 /* Products */ = {isa = PBXGroup; children = (B10000000000000000000007 /* CabinCrewEnglish.app */,); name = Products; sourceTree = "<group>"; };
+/* End PBXGroup section */
+/* Begin PBXNativeTarget section */
+		E10000000000000000000001 /* CabinCrewEnglish */ = {isa = PBXNativeTarget; buildConfigurationList = F10000000000000000000002 /* Build configuration list for PBXNativeTarget "CabinCrewEnglish" */; buildPhases = (G10000000000000000000001 /* Sources */, C10000000000000000000001 /* Frameworks */, H10000000000000000000001 /* Resources */,); buildRules = (); dependencies = (); name = CabinCrewEnglish; productName = CabinCrewEnglish; productReference = B10000000000000000000007 /* CabinCrewEnglish.app */; productType = "com.apple.product-type.application"; };
+/* End PBXNativeTarget section */
+/* Begin PBXProject section */
+		E10000000000000000000002 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastUpgradeCheck = 1640; ORGANIZATIONNAME = "Cabin Crew English"; TargetAttributes = {E10000000000000000000001 = {CreatedOnToolsVersion = 16.4; }; }; }; buildConfigurationList = F10000000000000000000001 /* Build configuration list for PBXProject "CabinCrewEnglish" */; compatibilityVersion = "Xcode 14.0"; developmentRegion = en; hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = D10000000000000000000001; productRefGroup = D10000000000000000000003 /* Products */; projectDirPath = ""; projectRoot = ""; targets = (E10000000000000000000001 /* CabinCrewEnglish */,); };
+/* End PBXProject section */
+/* Begin PBXResourcesBuildPhase section */
+		H10000000000000000000001 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXResourcesBuildPhase section */
+/* Begin PBXSourcesBuildPhase section */
+		G10000000000000000000001 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001, A10000000000000000000002, A10000000000000000000003, A10000000000000000000004, A10000000000000000000005, A10000000000000000000006, A10000000000000000000007,); runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXSourcesBuildPhase section */
+/* Begin XCBuildConfiguration section */
+		F20000000000000000000001 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ANALYZER_NONNULL = YES; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; IPHONEOS_DEPLOYMENT_TARGET = 16.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; }; name = Debug; };
+		F20000000000000000000002 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {ALWAYS_SEARCH_USER_PATHS = NO; CLANG_ANALYZER_NONNULL = YES; CLANG_ENABLE_MODULES = YES; CLANG_ENABLE_OBJC_ARC = YES; IPHONEOS_DEPLOYMENT_TARGET = 16.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0; }; name = Release; };
+		F20000000000000000000003 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGNING_ALLOWED = NO; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Cabin Crew English"; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education"; PRODUCT_BUNDLE_IDENTIFIER = com.asdfghhub.CabinCrewEnglish; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; IPHONEOS_DEPLOYMENT_TARGET = 16.0; }; name = Debug; };
+		F20000000000000000000004 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {CODE_SIGNING_ALLOWED = NO; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_KEY_CFBundleDisplayName = "Cabin Crew English"; INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education"; PRODUCT_BUNDLE_IDENTIFIER = com.asdfghhub.CabinCrewEnglish; PRODUCT_NAME = "$(TARGET_NAME)"; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_VERSION = 5.0; TARGETED_DEVICE_FAMILY = "1,2"; IPHONEOS_DEPLOYMENT_TARGET = 16.0; }; name = Release; };
+/* End XCBuildConfiguration section */
+/* Begin XCConfigurationList section */
+		F10000000000000000000001 /* Build configuration list for PBXProject "CabinCrewEnglish" */ = {isa = XCConfigurationList; buildConfigurations = (F20000000000000000000001, F20000000000000000000002,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		F10000000000000000000002 /* Build configuration list for PBXNativeTarget "CabinCrewEnglish" */ = {isa = XCConfigurationList; buildConfigurations = (F20000000000000000000003, F20000000000000000000004,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+/* End XCConfigurationList section */
+	};
+	rootObject = E10000000000000000000002 /* Project object */;
+}
