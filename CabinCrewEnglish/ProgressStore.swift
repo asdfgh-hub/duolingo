@@ -49,7 +49,12 @@ final class ProgressStore: ObservableObject {
     }
 
     func addGeneratedPack(_ pack: GeneratedLessonPack) {
-        generatedPacks.insert(pack, at: 0)
+        addGeneratedPacks([pack])
+    }
+
+    func addGeneratedPacks(_ packs: [GeneratedLessonPack]) {
+        guard !packs.isEmpty else { return }
+        generatedPacks.insert(contentsOf: packs, at: 0)
         if generatedPacks.count > 100 { generatedPacks = Array(generatedPacks.prefix(100)) }
         persistGeneratedPacks()
     }
